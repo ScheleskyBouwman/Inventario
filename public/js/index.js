@@ -165,8 +165,8 @@ function brandBadgesHtml(marca, size){
     <img src="${LOGO_HORSCH_COLOR}" alt="Horsch" style="height:${size}px">
   </span>`;
   return `<span class="brand-badges partner">
-    <img src="assets/krone-color.webp" alt="Krone">
-    <img src="assets/trioliet-color.svg" alt="Trioliet">
+    <img src="assets/Krone.png" alt="Krone">
+    <img src="assets/Triolet.svg" alt="Triolet">
   </span>`;
 }
 
@@ -370,7 +370,7 @@ function renderMap(){
       const photoBlock = photo.includes('<img') ? `<div class="popup-photo-wrap">${photo}<span class="popup-photo-badge">Foto da unidade</span></div>` : photo;
       const brand = isHorsch
         ? `<div class="popup-brand"><img src="assets/bouwman-color.png" alt="Bouwman"><img src="assets/horsch-red.svg" alt="Horsch"><span class="horsch-tag">Horsch</span></div>`
-        : `<div class="popup-brand partner"><img src="assets/krone-color.webp" alt="Krone"><img src="assets/trioliet-color.svg" alt="Trioliet"><span class="partner-tag">Krone + Trioliet</span></div>`;
+        : `<div class="popup-brand partner"><img src="assets/Krone.png" alt="Krone"><img src="assets/Triolet.png" alt="Triolet"><span class="partner-tag">Krone + Triolet</span></div>`;
       const arg = unitActionArg(name);
       marker.bindPopup(`<div class="popup-card ${isHorsch ? 'horsch-card' : ''}">
         ${photoBlock}
