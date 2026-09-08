@@ -226,7 +226,7 @@
 
 /* ---- camada interativa da nova cópia ---- */
 .topbar{border-bottom:4px solid var(--green); transition:background .25s ease, border-color .25s ease, box-shadow .25s ease;}
-.topbar.horsch-focus{background:linear-gradient(120deg,#071f24 0%,#4b1118 58%,#c31727 100%); border-bottom-color:var(--horsch-red); box-shadow:0 8px 26px -18px rgba(195,23,39,.85);}
+.topbar.horsch-focus{background:linear-gradient(120deg,#071f24 0%,#4b1118 58%,var(--horsch-red) 100%); border-bottom-color:var(--horsch-red); box-shadow:0 8px 26px -18px rgba(227,6,19,.85);}
 .brand-cluster{display:flex; align-items:center; gap:14px; flex:0 0 auto;}
 .brand-divider{height:36px; width:1px; background:rgba(255,255,255,.35);}
 .horsch-topbar-brand{display:flex; align-items:center; gap:8px; min-width:148px; color:#fff;}
@@ -237,7 +237,7 @@
 .live-pill::before{content:""; width:7px; height:7px; border-radius:50%; background:#46d486; box-shadow:0 0 0 4px rgba(70,212,134,.14);}
 .topbar-refresh{border:1px solid rgba(255,255,255,.35); border-radius:7px; padding:7px 10px; background:rgba(255,255,255,.08); color:#fff; font:700 11px inherit; cursor:pointer; transition:background .15s ease, transform .15s ease;}
 .topbar-refresh:hover{background:rgba(255,255,255,.18); transform:translateY(-1px);}
-.topbar.horsch-focus .topbar-refresh{border-color:#ffb5bb; background:rgba(195,23,39,.26);}
+.topbar.horsch-focus .topbar-refresh{border-color:#ffb5bb; background:rgba(227,6,19,.26);}
 .selection-summary{padding:12px 18px; border-top:1px solid var(--line); background:linear-gradient(90deg,#f8fbfb,#fff); font-size:11.5px; color:var(--ink-soft); min-height:62px;}
 .selection-summary.empty{display:flex; align-items:center; gap:8px;}
 .selection-summary .selection-label{display:inline-block; color:var(--green); text-transform:uppercase; font-size:9.5px; font-weight:800; letter-spacing:.08em; margin-bottom:4px;}
@@ -247,8 +247,8 @@
 .selection-summary .selection-actions button{border:1px solid var(--line); border-radius:6px; background:#fff; color:var(--navy); padding:5px 8px; font:700 10.5px inherit; cursor:pointer;}
 .selection-summary .selection-actions button:hover{border-color:var(--green); color:var(--green);}
 .unit-row{position:relative;}
-.unit-row.horsch{background:linear-gradient(90deg,rgba(195,23,39,.05),transparent 65%);}
-.unit-row.horsch:hover,.unit-row.horsch.active{background:linear-gradient(90deg,rgba(195,23,39,.12),#fff 75%);}
+.unit-row.horsch{background:linear-gradient(90deg,rgba(227,6,19,.05),transparent 65%);}
+.unit-row.horsch:hover,.unit-row.horsch.active{background:linear-gradient(90deg,rgba(227,6,19,.12),#fff 75%);}
 .unit-row.horsch .name{color:#9e1220;}
 .unit-row .micro-status{font-size:10px; color:var(--ink-soft); margin-top:5px; display:flex; gap:9px; flex-wrap:wrap;}
 .unit-row .micro-status b{color:var(--ink);}
@@ -537,7 +537,7 @@
           <span><i class="dot" style="background:#1c9c62"></i>≥ 85% concluído</span>
           <span><i class="dot" style="background:#c9a227"></i>60–85%</span>
           <span><i class="dot" style="background:#c23a3a"></i>&lt; 60%</span>
-          <span><i class="dot" style="background:#c31727"></i>Unidade Horsch</span>
+          <span><i class="dot" style="background:var(--horsch-red)"></i>Unidade Horsch</span>
           <span style="margin-left:auto">⚠ cidades não confirmadas aparecem tracejadas</span>
         </div>
       </div>

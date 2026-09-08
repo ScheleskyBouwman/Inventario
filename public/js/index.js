@@ -25,6 +25,20 @@ const STATUS_LABEL = {
 const STATUS_SET = new Set(Object.keys(STATUS_LABEL));
 
 const HORSCH_UNITS = new Set(["guarapuava","itapeva"]);
+const KNOWN_UNIT_LOCATIONS = {
+  "Matriz": {cidade: "Castro", uf: "PR", lat: -24.8119296, lon: -49.987584},
+  "Logística": {cidade: "Castro", uf: "PR", lat: -24.8119296, lon: -49.987584},
+  "Operação (Cia da Silagem)": {cidade: "Castro", uf: "PR", lat: -24.8119296, lon: -49.987584},
+  CT: {cidade: "Castro", uf: "PR", lat: -24.8193, lon: -50.0471}
+};
+const LOCAL_UNIT_PHOTOS = {
+  "CT": "assets/Filiais/CT.jpg",
+  "Logística": "assets/Filiais/CIA.png",
+  "Matriz": "assets/Filiais/matriz.JPG",
+  "Operação (Cia da Silagem)": "assets/Filiais/CIA.png",
+  "Pinhalzinho": "assets/Filiais/pinhalzinho.jpeg",
+  "Starkland - Castro PR": "assets/Filiais/starkland.jpeg"
+};
 function norm(s){ return (s||"").toString().trim().toLowerCase(); }
 
 function pctColor(p){
@@ -75,6 +89,24 @@ function forceHorschBrand(unidades){
   });
   return unidades;
 }
+function applyLocalUnitPhotos(unidades){
+  Object.entries(LOCAL_UNIT_PHOTOS).forEach(([name, photo])=>{
+    if(unidades[name]){
+      unidades[name].foto_url = photo;
+      unidades[name].foto_fallback = photo;
+    }
+  });
+  return unidades;
+}
+function applyKnownUnitLocations(unidades, pessoas){
+  Object.entries(KNOWN_UNIT_LOCATIONS).forEach(([name, location])=>{
+    if(unidades[name]) Object.assign(unidades[name], location, {confirmado:true});
+    pessoas.forEach(person=>{
+      if(person.unidade === name) Object.assign(person, location);
+    });
+  });
+  return {unidades, pessoas};
+}
 
 function fetchCsv(url){
   return new Promise((resolve, reject)=>{
@@ -100,6 +132,8 @@ async function loadData(){
       });
       if(pessoas.length && Object.keys(unidades).length){
         forceHorschBrand(unidades);
+        applyLocalUnitPhotos(unidades);
+        applyKnownUnitLocations(unidades, pessoas);
         return {pessoas, unidades, fromSheet:true};
       }
     }catch(err){
@@ -108,6 +142,8 @@ async function loadData(){
   }
   const fallback = JSON.parse(JSON.stringify(EMBEDDED_DATA));
   forceHorschBrand(fallback.unidades);
+  applyLocalUnitPhotos(fallback.unidades);
+  applyKnownUnitLocations(fallback.unidades, fallback.pessoas);
   return {pessoas: fallback.pessoas, unidades: fallback.unidades, fromSheet:false};
 }
 
@@ -195,7 +231,7 @@ function locationPhotoTag(meta, name, className){
   const primary = meta.foto_url || meta.foto_fallback || '';
   if(!primary) return `<div class="${className} placeholder">📍</div>`;
   const fallback = meta.foto_fallback || '';
-  return `<img class="${className}" loading="lazy" src="${primary}" data-fallback="${fallback}" alt="Foto da unidade ${name}" referrerpolicy="no-referrer" onerror="if(this.dataset.fallback && !this.dataset.fallbackUsed){this.dataset.fallbackUsed=1;this.src=this.dataset.fallback;}else{this.classList.add('photo-error');}">`;
+  return `<img class="${className}" loading="lazy" src="${primary}" data-fallback="${fallback}" alt="Foto da unidade ${name}" referrerpolicy="no-referrer" style="background:#fff" onerror="if(this.dataset.fallback && !this.dataset.fallbackUsed){this.dataset.fallbackUsed=1;this.src=this.dataset.fallback;}else{this.classList.add('photo-error');}">`;
 }
 function unitActionArg(name){
   return JSON.stringify(name).replace(/</g, '\\u003c');
@@ -357,10 +393,10 @@ function renderMap(){
       const isHorsch = meta.marca === 'bouwman_horsch';
       const marker = L.circleMarker([meta.lat, meta.lon], {
         radius,
-        color: isHorsch ? '#c31727' : (meta.confirmado ? pctColor(pct) : '#9aa2b1'),
+        color: isHorsch ? '#E30613' : (meta.confirmado ? pctColor(pct) : '#9aa2b1'),
         weight: isHorsch ? 4 : 2,
         dashArray: meta.confirmado ? null : '4,3',
-        fillColor: isHorsch ? '#c31727' : pctColor(pct),
+        fillColor: isHorsch ? '#E30613' : pctColor(pct),
         fillOpacity: isHorsch ? .70 : .55
       }).addTo(map);
       marker.bindTooltip(`${name} · ${(pct*100).toFixed(0)}%`, {direction:'top', offset:[0,-radius], opacity:.92});
